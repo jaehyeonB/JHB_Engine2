@@ -1,6 +1,7 @@
 
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,20 +12,34 @@ public class PlayerController : MonoBehaviour
     private Vector3 velocity;
     public bool isGrounded;
 
+    public int maxHP = 100;
+    private int currentHP;
+
     public CinemachineVirtualCamera virtualCam;
     public float rotationSpeed = 10f;
     private CinemachinePOV pov;
+
+    public Slider hpSlider;
 
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
         pov = virtualCam.GetCinemachineComponent<CinemachinePOV>();
+
+        currentHP = maxHP;
+        hpSlider.value = 1f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            pov.m_HorizontalAxis.Value = transform.eulerAngles.y;
+            pov.m_VerticalAxis.Value = 0f;
+        }
+
         CinemachineSwitcher switcher = FindObjectOfType<CinemachineSwitcher>();
 
         isGrounded = characterController.isGrounded;
@@ -70,9 +85,25 @@ public class PlayerController : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         characterController.Move(velocity * Time.deltaTime);
 
+       
+
 
 
     }
 
+    public void TakeDamage(int damage)
+    {
+        currentHP -= damage;
+        hpSlider.value = (float)currentHP / maxHP;
 
+        if(currentHP <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Destroy(gameObject);
+    }
 }

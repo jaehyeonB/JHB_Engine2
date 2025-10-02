@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float damage = 1f;
+    public int damage = 1;
 
     public float speed = 20f;
     public float lifeTime = 2f;
@@ -25,13 +25,13 @@ public class Projectile : MonoBehaviour
         if(gunMode == 0)
         {
             speed = 30f;
-            damage = 1f;
+            damage = 1;
         }
 
         if(gunMode == 1)
         {
             speed = 10f;
-            damage = 3f;
+            damage = 3;
         }
     }
 
@@ -41,7 +41,7 @@ public class Projectile : MonoBehaviour
         if(other.CompareTag("Enemy"))
         {
             Enemy enemy = other.GetComponent<Enemy>();
-            enemy.ProjectileHit(damage);
+            enemy.TakeDamage(damage);
             
             Destroy(gameObject);
         }
