@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         pov = virtualCam.GetCinemachineComponent<CinemachinePOV>();
 
+        maxHP = GameManager.Instance.playerMaxHP;
         currentHP = maxHP;
         hpSlider.value = 1f;
     }
@@ -84,13 +85,19 @@ public class PlayerController : MonoBehaviour
         }
         velocity.y += gravity * Time.deltaTime;
         characterController.Move(velocity * Time.deltaTime);
-
-       
-
-
-
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.GetComponent<SceneObject>() != null)
+        {
+            string info = other.GetComponent<SceneObject>().objectInfo;
+            if(info.StartsWith("Scene"))
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(info);
+            }
+        }
+    }
     public void TakeDamage(int damage)
     {
         currentHP -= damage;
