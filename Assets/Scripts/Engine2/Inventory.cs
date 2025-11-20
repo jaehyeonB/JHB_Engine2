@@ -29,6 +29,15 @@ public class Inventory : MonoBehaviour
             return false;
         items[type] = have - count;
         Debug.Log($"[Inventory] -{count} {type} (รั {items[type]})");
+
+        if (items[type] == 0)
+        {
+            items.Remove(type);
+            invenUI.selectedIndex = -1;
+            invenUI.ResetSelection();
+        }
+
+        invenUI.UpdateInventory(this);
         return true;
     }
 }
