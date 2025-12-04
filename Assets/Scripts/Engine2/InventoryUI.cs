@@ -7,6 +7,7 @@ public class InventoryUI : MonoBehaviour
 {
     public Sprite Grass;
     public Sprite Stone;
+    public Sprite Furnace;
 
     public List<Transform> Slot;
     public GameObject SlotItem;
@@ -52,7 +53,7 @@ public class InventoryUI : MonoBehaviour
         Slot[_idx].GetComponent<Image>().color = Color.yellow;
     }
 
-    public BlockType GetInventorySlot()
+    public ItemType GetInventorySlot()
     {
         return items[selectedIndex].GetComponent<SlotItemPrefab>().blockType;
     }
@@ -75,14 +76,17 @@ public class InventoryUI : MonoBehaviour
 
             switch(item.Key)
             {
-                case BlockType.Grass:
-                    sitem.ItemSetting(Grass, $"{item.Value}", BlockType.Grass);
+                case ItemType.Grass:
+                    sitem.ItemSetting(Grass, $"{item.Value}", ItemType.Grass);
                     break;
                     //sitem.itemImage = 
-                case BlockType.Stone:
-                    sitem.ItemSetting(Stone, $"{item.Value}", BlockType.Stone);
+                case ItemType.Stone:
+                    sitem.ItemSetting(Stone, $"{item.Value}", ItemType.Stone);
                     break;
-                //case
+                case ItemType.Furnace:
+                    sitem.ItemSetting(Furnace, $"{item.Value}", ItemType.Furnace);
+                    break;
+
             }
             idx++;
         }    

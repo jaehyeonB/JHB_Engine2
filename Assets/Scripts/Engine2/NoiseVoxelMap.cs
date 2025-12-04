@@ -8,6 +8,7 @@ public class NoiseVoxelMap : MonoBehaviour
     public GameObject grassPrefab;
     public GameObject stonePrefab;
     public GameObject waterPrefab;
+    public GameObject furnacePrefab;
 
     public int waterLine = 0;
 
@@ -62,7 +63,7 @@ public class NoiseVoxelMap : MonoBehaviour
         go.name = $"B_{x}_{y}_{z}";
 
         var grassB = go.GetComponent<Block>() ?? go.AddComponent<Block>();
-        grassB.type = BlockType.Grass;
+        grassB.type = ItemType.Grass;
         grassB.maxHP = 3;
         grassB.dropCount = 1;
         grassB.mineable = true;
@@ -74,7 +75,7 @@ public class NoiseVoxelMap : MonoBehaviour
         go.name = $"B_{x}_{y}_{z}";
 
         var stoneB = go.GetComponent<Block>() ?? go.AddComponent<Block>();
-        stoneB.type = BlockType.Stone;
+        stoneB.type = ItemType.Stone;
         stoneB.maxHP = 9;
         stoneB.dropCount = 1;
         stoneB.mineable = true;
@@ -86,25 +87,40 @@ public class NoiseVoxelMap : MonoBehaviour
         go.name = $"B_{x}_{y}_{z}";
 
         var waterB = go.GetComponent<Block>() ?? go.AddComponent<Block>();
-        waterB.type = BlockType.Water;
+        waterB.type = ItemType.Water;
         waterB.maxHP = 999;
         waterB.dropCount = 0;
         waterB.mineable = false;
+    }
+
+    private void PlaceFurnace(int x, int y, int z)
+    {
+        var go = Instantiate(furnacePrefab, new Vector3(x, y, z), Quaternion.identity, transform);
+        go.name = $"B_{x}_{y}_{z}";
+
+        var waterB = go.GetComponent<Block>() ?? go.AddComponent<Block>();
+        waterB.type = ItemType.Furnace;
+        waterB.maxHP = 9;
+        waterB.dropCount = 0;
+        waterB.mineable = true;
     }
     void Update()
     {
         
     }
 
-    public void PlaceTile(Vector3Int pos, BlockType type)
+    public void PlaceTile(Vector3Int pos, ItemType type)
     {
         switch (type)
         {
-            case BlockType.Grass:
+            case ItemType.Grass:
                 PlaceGrass(pos.x, pos.y, pos.z);
                 break;
-            case BlockType.Stone:
+            case ItemType.Stone:
                 PlaceStone(pos.x,pos.y, pos.z);
+                break;
+            case ItemType.Furnace:
+                PlaceFurnace(pos.x, pos.y, pos.z);
                 break;
         }
     }

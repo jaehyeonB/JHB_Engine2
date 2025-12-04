@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BlockType { Grass, Stone, Water}
+public enum ItemType { Grass, Stone, Water, Furnace}
 public class Block : MonoBehaviour
 {
     [Header("Block Stats")]
-    public BlockType type = BlockType.Grass;
+    public ItemType type = ItemType.Grass;
     public int maxHP = 3;
     [HideInInspector] public int hp;
 
